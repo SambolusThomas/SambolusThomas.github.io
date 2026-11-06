@@ -1,0 +1,77 @@
+{
+  "policy": "Increment only the revision of a page that changes; update its visible date and this record. Revision 1 is the approved baseline of November 6, 2026. Earlier edits remain in Git history. Original PDF retains its own existing revision.",
+  "pages": {
+    "index.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "The Heartbeat of Heaven · The Greatest Love Story Ever Told",
+      "sha256": "e1ef1f63a13fd84185a2d11e4127b338f70543de3fd741433d40a81814444c25"
+    },
+    "writings/about-his-fathers-business.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "About His Father’s Business · The Greatest Love Story Ever Told",
+      "sha256": "867b624877484594f4c4cc6cecd8edc3ec7c8c60b59172029a7eda25bea124c4"
+    },
+    "writings/chapter-0.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "From Separation to Reconciliation · The Greatest Love Story Ever Told",
+      "sha256": "b5afecaecef1680c45b61334ce32d63c94f31c9ce04981eb5a0c96983eddc09f"
+    },
+    "writings/chapter-1.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "Before the Beginning · The Greatest Love Story Ever Told",
+      "sha256": "ff4eb0c2aeaa0f4f166402b5f9ba3da975497a89d47eaa83556f436fafbf2297"
+    },
+    "writings/chapter-2.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "The First Home · The Greatest Love Story Ever Told",
+      "sha256": "27ea91475c952a6e2f27373a24cf82041bffaa8bc16de4c98f1e5926f9a192f1"
+    },
+    "writings/chapter-3.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "Love’s Promise Within a Family · The Greatest Love Story Ever Told",
+      "sha256": "82f264b0f9e34bdb0c38653ee73f00ece71af11c7242676ab0ec442a96e38f6d"
+    },
+    "writings/chapter-4.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "Love Carried from Household to Household · The Greatest Love Story Ever Told",
+      "sha256": "a3de2f5ebf4972084764e27b37261c0b8ea323bb9c3d119d6be743f9e4e2294a"
+    },
+    "writings/heartbeat-of-heaven.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "The Heartbeat of Heaven — Revision R-A",
+      "sha256": "518d9311a66b2035cb9b2d196573c24d539406f18df6194eba94fbf671cce1aa"
+    },
+    "writings/love-comes-again-to-bethlehem.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "Love Comes Again to Bethlehem · The Greatest Love Story Ever Told",
+      "sha256": "b16ca96f7b40917a72b00be5ccd17ddb8d8b5508b0ccd1bf6cbafb85c216fc63"
+    },
+    "writings/love-goes-to-bring-them-home.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "Love Goes to Bring Them Home · The Greatest Love Story Ever Told",
+      "sha256": "2a6e20a26ddae81b7d3fb44bcd8c8651659b227d368556fef9b5f3fa2190856f"
+    },
+    "writings/scripture-references.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "Scripture references · The Greatest Love Story Ever Told",
+      "sha256": "ebed8709c1018085890364d387a16a4ad728ffc344c978787abbaed296707c95"
+    },
+    "writings/the-love-that-carries-him.html": {
+      "revision": 1,
+      "date": "2026-11-06",
+      "title": "The Love That Carries Him · The Greatest Love Story Ever Told",
+      "sha256": "82cb3782f56d4cb800a56c729b555777577b95cccbba1954cd62efa4e51d2e0e"
+    }
+  }
+}
