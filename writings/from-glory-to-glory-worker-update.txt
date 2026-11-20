@@ -1,0 +1,48 @@
+
+// Approved From Glory to Glory, November 19, 2026.
+{
+const a={"title": "From Glory to Glory", "body": "<p><em>Our Shared Journey</em></p>\n<p>I have often heard it said that the only constant in life is change. As I have grown in my relationship with God, I have noticed something that seems to follow that same pattern. There is an ebb and flow to my experience of Him.</p>\n<p>There are times when His presence seems so near that I feel I could almost reach out and touch Him. Something fresh and wonderful opens before me, and I find myself discovering things about Him that I never knew before. At other times, that wonderful sense of nearness seems to diminish. Yet I know He has not gone anywhere.</p>\n<p>For a long time, I might have wondered whether I had done something wrong or somehow displeased Him. I have come to consider another possibility. Perhaps these quieter seasons are simply part of growing in Him.</p>\n<p>Scripture tells us that we are being transformed into His image, from one degree of glory to another (<a href=\"https://www.biblegateway.com/passage/?search=2%20Corinthians%203%3A18&amp;version=ESV\">2 Corinthians 3:18</a>). I wonder whether some of these quieter times are periods when my natural mind and emotions are simply catching up with what God is doing within me.</p>\n<p>I don't pretend to understand it. I certainly don't consider myself someone who has attained some special place with God. I am simply a sinner who needed a Savior, and I have found the One who died for me.</p>\n<p>What I have discovered is that I want to know Him. Not merely know about Him, but know Him as a friend. I want to learn what pleases Him, recognize His voice, and spend time in His presence. I want nothing in return except to be near Him. I long for the day when I will no longer be encumbered by the limitations of this present body, but will be clothed with the life He has promised.</p>\n<p>There are higher heights in God than I have ever known. Some encounters with Him may be fresh and entirely new, while others may be familiar and wonderfully reassuring. I don't know what tomorrow will bring in my relationship with Him, but I know the One who holds tomorrow.</p>\n<p>Perhaps the greatest discovery is that <strong>He has never moved away.</strong> Through every ebb and every flow, He remains faithful. The One who began a good work in us is faithful to complete it (<a href=\"https://www.biblegateway.com/passage/?search=Philippians%201%3A6&amp;version=ESV\">Philippians 1:6</a>).</p>\n<p>I share this because there is nothing exclusive about knowing Him. The relationship I am describing is not reserved for a few special people. He has invited each of us to come near. We may experience Him differently, and our journeys may not look alike, but the invitation is the same.</p>\n<p>Believe that He is. Believe that He rewards those who diligently seek Him (<a href=\"https://www.biblegateway.com/passage/?search=Hebrews%2011%3A6&amp;version=ESV\">Hebrews 11:6</a>).</p>\n<p>Consider the wonder of it all. The Creator of the universe cared enough to send His beloved Son for us. The One who knows everything about us still desires that we know Him.</p>\n<p>I cannot comprehend such love. I can only stand in awe of it, respond to it, and continue following Him.</p>\n<p>From glory to glory.</p>", "refs": [["2 Corinthians 3:18", "https://www.biblegateway.com/passage/?search=2%20Corinthians%203%3A18&version=ESV"], ["Philippians 1:6", "https://www.biblegateway.com/passage/?search=Philippians%201%3A6&version=ESV"], ["Hebrews 11:6", "https://www.biblegateway.com/passage/?search=Hebrews%2011%3A6&version=ESV"]]};
+
+const path='/from-glory-to-glory';
+const template=PUBLIC_PAGES['/for-all-people-in-all-times'];
+const head=template.split('<main>')[0].replaceAll('For All People, in All Times',a.title).replaceAll('https://speakihear.org/for-all-people-in-all-times','https://speakihear.org'+path);
+const topics='<aside class="article-themes" aria-label="Writing themes"><p>Love · Life with Him</p><a href="/testimonies#knowing-his-love">Knowing His Love</a><a href="/testimonies#walking-with-him">Walking with Him</a></aside>';
+const related='<aside class="related-writings"><h2>Continue the thought</h2><ul><li><a href="/knowing-him">Knowing Him</a></li><li><a href="/changing-your-perspective">Changing Your Perspective</a></li></ul></aside>';
+const nav='<nav class="reading" aria-label="Reading navigation"><a href="/knowing-him">Knowing Him — Where Do I Begin?</a><a class="next" href="/changing-your-perspective">Next: Changing Your Perspective</a><a href="/testimonies#helps">Writings for the Journey</a><a href="/writings/scripture-references.html">Scripture references</a></nav>';
+PUBLIC_PAGES[path]=head+'<main><span class="eyebrow">Our Shared Journey</span><h1>'+a.title+'</h1>'+a.body.replace('<p><em>Our Shared Journey</em></p>\n','')+topics+related+nav+'</main></body></html>';
+for(const key of ['collection','welcome']){
+ let p=PAGES[key];
+ if(!p.includes('class="writing-row" href="'+path+'"')){
+ const n=(p.match(/class="writing-row"/g)||[]).length+1;
+ const row='<li><a class="writing-row" href="'+path+'"><span class="writing-number" aria-hidden="true">'+n+'</span><span><span class="writing-name">'+a.title+'</span><span class="writing-subtitle">Trusting His faithfulness through every ebb and flow</span></span><span class="writing-open" aria-hidden="true">Read →</span></a></li>';
+ const start=p.indexOf('<section class="journey-directory"');if(start<0)throw Error('Missing directory');
+ const anchor=p.indexOf('href="/knowing-him"',start);if(anchor<0)throw Error('Knowing Him row missing');const next=p.indexOf('class="writing-row" href="/changing-your-perspective"',anchor);if(next<0)throw Error('Changing Your Perspective row missing');const end=p.indexOf('</li>',anchor)+5;p=p.slice(0,end)+row+p.slice(end);let number=0;p=p.replace(/(<span class="writing-number" aria-hidden="true">)\d+(<\/span>)/g,(_,a,b)=>a+(++number)+b);
+ }
+ for(const id of ['knowing-his-love','walking-with-him']){
+ const start=p.indexOf('<details class="theme-group" id="'+id+'"');if(start<0)throw Error('Missing theme');
+ const end=p.indexOf('</ul>',start);p=p.slice(0,end)+'<li><a href="'+path+'">'+a.title+'</a></li>'+p.slice(end);
+ }
+ PAGES[key]=p;
+}
+for(const slug of ['knowing-him','changing-your-perspective']){const link='<aside class="related-writings"><h2>Continue the thought</h2><p><a href="'+path+'">'+a.title+'</a></p></aside>';if(PUBLIC_PAGES['/'+slug])PUBLIC_PAGES['/'+slug]=PUBLIC_PAGES['/'+slug].replace('</main>',link+'</main>');else if(PAGES[slug])PAGES[slug]+=link;else throw Error('Missing related writing '+slug);}
+let idx=PUBLIC_PAGES['/writings/scripture-references.html'];
+for(const [label,url] of a.refs){
+ const book=label.match(/^(.*?) \d+:/)?.[1];if(!book)throw Error('Unknown Scripture label');const id=book.toLowerCase().replaceAll(' ','-');const marker='<section id="book-'+id+'">';
+ if(!idx.includes(marker))idx=idx.replace('</main>',marker+'<h2>'+book+'</h2><ul></ul></section></main>');
+ const start=idx.indexOf(marker),end=idx.indexOf('</section>',start),seg=idx.slice(start,end),pos=seg.lastIndexOf('</ul>');
+ if(pos<0)throw Error('Missing scripture list');
+ const entry='<li class="scripture-entry"><a class="passage" href="'+url.replaceAll('&','&amp;')+'">'+label+'</a><ul><li><a href="'+path+'">'+a.title+'</a></li></ul></li>';
+ idx=idx.slice(0,start)+seg.slice(0,pos)+entry+seg.slice(pos)+idx.slice(end);
+}
+idx=idx.replace('</main>','<section id="from-glory-to-glory"><h3><a href="'+path+'">'+a.title+'</a></h3><ul>'+a.refs.map(([l,u])=>'<li><a href="'+u.replaceAll('&','&amp;')+'">'+l+'</a></li>').join('')+'</ul></section></main>');
+PUBLIC_PAGES['/writings/scripture-references.html']=idx;
+}
+
+{
+const oldNext='<a class="next" href="/the-immovable-object">Next: The Immovable Object →</a>';
+const pages=PUBLIC_PAGES['/knowing-him']?PUBLIC_PAGES:PAGES;
+const key=pages===PUBLIC_PAGES?'/knowing-him':'knowing-him';
+const page=pages[key];
+if(!page?.includes(oldNext))throw Error('Knowing Him navigation has changed');
+pages[key]=page.replace(oldNext,'<a href="/the-immovable-object">The Immovable Object</a><a class="next" href="/from-glory-to-glory">Next: From Glory to Glory →</a>');
+}
