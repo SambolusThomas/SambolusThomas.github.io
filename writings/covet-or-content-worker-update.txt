@@ -1,0 +1,41 @@
+
+// Approved Covet or Content?
+{
+const a={"title": "Covet or Content?", "body": "<p>Have you ever found yourself thinking, <em>I could be at peace if this one thing would change</em>? I have. It is easy to look at the circumstances I am in and let what I can see tell me how much peace I can have.</p>\n<p><a href=\"https://www.biblegateway.com/passage/?search=Isaiah%2026%3A3&amp;version=KJV\">Isaiah 26:3</a> says that God keeps in perfect peace the one whose mind is stayed on Him, because that person trusts in Him. I keep coming back to that last part. Where does the peace come from? It comes from God, and my mind stays on Him because I trust Him.</p>\n<p>That helps me hear something in <a href=\"https://www.biblegateway.com/passage/?search=Hebrews%2013%3A5-6&amp;version=KJV\">Hebrews 13:5–6</a>. The King James says, “Let your conversation be without covetousness; and be content with such things as ye have.” Here, <em>conversation</em> means the way we live. Then God gives us a reason to be content: “I will never leave thee, nor forsake thee.”</p>\n<p>I think of coveting and contentment as two directions I can walk. I can spend my time wishing I had someone else’s life, or I can ask God what He wants me to do in the life I am actually living. The longer I dwell on what somebody else has or how different I wish things were, the harder it is to see what God has already provided.</p>\n<p>I can ask God to change a hard situation and still be content in Him today. I can take whatever step He shows me and trust Him with the part I cannot see. Sometimes the question I need to ask is simply, <em>Lord, what would You have me learn here?</em></p>\n<p><a href=\"https://www.biblegateway.com/passage/?search=Romans%208%3A28&amp;version=KJV\">Romans 8:28</a> tells us that all things work together for good to those who love God and are called according to His purpose. I often think about that verse in terms of what God is doing for me. Joseph’s story makes me look a little farther. His brothers sold him into slavery, and years later he told them, “Ye thought evil against me; but God meant it unto good” (<a href=\"https://www.biblegateway.com/passage/?search=Genesis%2050%3A20&amp;version=KJV\">Genesis 50:20</a>). The good Joseph could finally see reached well beyond his own life. Many people lived because of what God had done through him.</p>\n<p>God is eternal. He can see what He is doing in my life and in the lives of the people around me. I see only the little part I am standing in, and sometimes I get in a hurry because that is all I can see.</p>\n<p>When I catch myself thinking, <em>I could be at peace if this one thing would change</em>, I want to remember what God has already said. He will never leave me or forsake me. Whatever happens next, the Lord is my helper today.</p>", "refs": [["Isaiah 26:3", "https://www.biblegateway.com/passage/?search=Isaiah%2026%3A3&version=KJV"], ["Hebrews 13:5–6", "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A5-6&version=KJV"], ["Romans 8:28", "https://www.biblegateway.com/passage/?search=Romans%208%3A28&version=KJV"], ["Genesis 50:20", "https://www.biblegateway.com/passage/?search=Genesis%2050%3A20&version=KJV"]]};
+
+const path='/covet-or-content';
+const template=PUBLIC_PAGES['/for-all-people-in-all-times'];
+const head=template.split('<main>')[0].replaceAll('For All People, in All Times',a.title).replaceAll('https://speakihear.org/for-all-people-in-all-times','https://speakihear.org'+path);
+const topics='<aside class="article-themes" aria-label="Writing themes"><p>Love · Life with Him</p><a href="/testimonies#waiting-and-trusting">Waiting and Trusting</a></aside>';
+const related='<aside class="related-writings"><h2>Continue the thought</h2><ul><li><a href="/from-glory-to-glory">From Glory to Glory</a></li><li><a href="/knowing-him">Knowing Him</a></li></ul></aside>';
+const nav='<nav class="reading" aria-label="Reading navigation"><a href="/from-glory-to-glory">From Glory to Glory</a><a class="next" href="/knowing-him">Next: Knowing Him</a><a href="/testimonies#helps">Writings for the Journey</a><a href="/writings/scripture-references.html">Scripture references</a></nav>';
+PUBLIC_PAGES[path]=head+'<main><span class="eyebrow">Our Shared Journey</span><h1>'+a.title+'</h1>'+a.body+topics+related+nav+'</main></body></html>';
+for(const key of ['collection','welcome']){
+ let p=PAGES[key];
+ if(!p.includes('class="writing-row" href="'+path+'"')){
+ const n=(p.match(/class="writing-row"/g)||[]).length+1;
+ const row='<li><a class="writing-row" href="'+path+'"><span class="writing-number" aria-hidden="true">'+n+'</span><span><span class="writing-name">'+a.title+'</span><span class="writing-subtitle">Finding peace in the One who never leaves us</span></span><span class="writing-open" aria-hidden="true">Read →</span></a></li>';
+ const start=p.indexOf('<section class="journey-directory"');
+ const end=p.indexOf('</ol>',start);
+ if(start<0||end<0)throw Error('Missing journey directory');
+ p=p.slice(0,end)+row+p.slice(end);
+ }
+ for(const id of ['waiting-and-trusting']){
+ const start=p.indexOf('<details class="theme-group" id="'+id+'"');if(start<0)throw Error('Missing theme');
+ const end=p.indexOf('</ul>',start);p=p.slice(0,end)+'<li><a href="'+path+'">'+a.title+'</a></li>'+p.slice(end);
+ }
+ PAGES[key]=p;
+}
+for(const slug of ['from-glory-to-glory']){const link='<aside class="related-writings"><h2>Continue the thought</h2><p><a href="'+path+'">'+a.title+'</a></p></aside>';if(PUBLIC_PAGES['/'+slug])PUBLIC_PAGES['/'+slug]=PUBLIC_PAGES['/'+slug].replace('</main>',link+'</main>');else if(PAGES[slug])PAGES[slug]+=link;else throw Error('Missing related writing '+slug);}
+let idx=PUBLIC_PAGES['/writings/scripture-references.html'];
+for(const [label,url] of a.refs){
+ const book=label.match(/^(.*?) \d+:/)?.[1];if(!book)throw Error('Unknown Scripture label');const id=book.toLowerCase().replaceAll(' ','-');const marker='<section id="book-'+id+'">';
+ if(!idx.includes(marker))idx=idx.replace('</main>',marker+'<h2>'+book+'</h2><ul></ul></section></main>');
+ const start=idx.indexOf(marker),end=idx.indexOf('</section>',start),seg=idx.slice(start,end),pos=seg.lastIndexOf('</ul>');
+ if(pos<0)throw Error('Missing scripture list');
+ const entry='<li class="scripture-entry"><a class="passage" href="'+url.replaceAll('&','&amp;')+'">'+label+'</a><ul><li><a href="'+path+'">'+a.title+'</a></li></ul></li>';
+ idx=idx.slice(0,start)+seg.slice(0,pos)+entry+seg.slice(pos)+idx.slice(end);
+}
+idx=idx.replace('</main>','<section id="covet-or-content"><h3><a href="'+path+'">'+a.title+'</a></h3><ul>'+a.refs.map(([l,u])=>'<li><a href="'+u.replaceAll('&','&amp;')+'">'+l+'</a></li>').join('')+'</ul></section></main>');
+PUBLIC_PAGES['/writings/scripture-references.html']=idx;
+}
