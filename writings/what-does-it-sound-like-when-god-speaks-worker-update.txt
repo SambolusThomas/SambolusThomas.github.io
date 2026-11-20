@@ -1,0 +1,41 @@
+
+// Approved What Does It Sound Like When God Speaks?
+{
+const a={"title": "What Does It Sound Like When God Speaks?", "body": "<p>Have you ever heard me put the emphasis on the wrong syllable? You probably knew what word I meant. You also knew something about it sounded wrong. All of that happened in a jiffy. You heard the sound, recognized the word, and noticed what I had done before either of us stopped to think about it.</p>\n<p>I was thinking about that when I read <a href=\"https://www.biblegateway.com/passage/?search=Genesis%203%3A8&amp;version=KJV\">Genesis 3:8</a>. The King James says Adam and Eve heard “the voice of the LORD God walking in the garden in the cool of the day.” The ESV says they heard “the sound of the LORD God walking.” The NLT puts it simply. They heard the Lord God walking about in the garden.</p>\n<p>How do you hear a voice walking in a garden? That wording made me slow down. I can read right over a verse I have heard all my life and miss the wonder of what it says. Whatever that moment sounded like, Adam and Eve knew whose presence they were in. And they hid.</p>\n<p>Then I went to <a href=\"https://www.biblegateway.com/passage/?search=Exodus%2019%3A19&amp;version=KJV\">Exodus 19:19</a>. The trumpet grew louder and louder. Moses spoke, and God answered him by a voice. I wonder what it was like to hear that trumpet and then hear God answer. And then I think about the still small voice Elijah heard in <a href=\"https://www.biblegateway.com/passage/?search=1%20Kings%2019%3A12&amp;version=KJV\">1 Kings 19</a>. God has more ways of getting through to us than I know how to imagine.</p>\n<p>I’m still learning to listen. For me, the place to begin is in His Word. I can read a passage and ask, <em>Lord, what does this mean in my life? Is there something You want me to see here?</em> Then I can give Him some of my time and attention. I have often found it easier to tell Him what is on my mind than to quiet myself long enough to listen.</p>\n<p>I want to hear Him because I want to know Him. I want to recognize what He is showing me in the middle of an ordinary day and be willing to act on it. Sometimes the question is as simple as, <em>Lord, what would You have me do tomorrow?</em> And sometimes the next thing to do is something He has already shown me in His Word.</p>\n<p>There is a time to lift our voices and praise Him. I love to do that. And there is a time to get quiet with Him. I want to give Him both.</p>\n<p><em>Lord, help me hear what You are saying, and help me do what You ask.</em></p>", "refs": [["Genesis 3:8", "https://www.biblegateway.com/passage/?search=Genesis%203%3A8&version=KJV"], ["Exodus 19:19", "https://www.biblegateway.com/passage/?search=Exodus%2019%3A19&version=KJV"], ["1 Kings 19:12", "https://www.biblegateway.com/passage/?search=1%20Kings%2019%3A12&version=KJV"]]};
+
+const path='/what-does-it-sound-like-when-god-speaks';
+const template=PUBLIC_PAGES['/for-all-people-in-all-times'];
+const head=template.split('<main>')[0].replaceAll('For All People, in All Times',a.title).replaceAll('https://speakihear.org/for-all-people-in-all-times','https://speakihear.org'+path);
+const topics='<aside class="article-themes" aria-label="Writing themes"><p>Love · Life with Him</p><a href="/testimonies#walking-with-him">Walking with Him</a></aside>';
+const related='<aside class="related-writings"><h2>Continue the thought</h2><ul><li><a href="/stop-changing-it">Don&#39;t Change It</a></li><li><a href="/knowing-him">Knowing Him</a></li></ul></aside>';
+const nav='<nav class="reading" aria-label="Reading navigation"><a href="/stop-changing-it">Don&#39;t Change It</a><a class="next" href="/knowing-him">Next: Knowing Him</a><a href="/testimonies#helps">Writings for the Journey</a><a href="/writings/scripture-references.html">Scripture references</a></nav>';
+PUBLIC_PAGES[path]=head+'<main><span class="eyebrow">Our Shared Journey</span><h1>'+a.title+'</h1>'+a.body+topics+related+nav+'</main></body></html>';
+for(const key of ['collection','welcome']){
+ let p=PAGES[key];
+ if(!p.includes('class="writing-row" href="'+path+'"')){
+ const n=(p.match(/class="writing-row"/g)||[]).length+1;
+ const row='<li><a class="writing-row" href="'+path+'"><span class="writing-number" aria-hidden="true">'+n+'</span><span><span class="writing-name">'+a.title+'</span><span class="writing-subtitle">Learning to recognize His voice</span></span><span class="writing-open" aria-hidden="true">Read →</span></a></li>';
+ const start=p.indexOf('<section class="journey-directory"');
+ const end=p.indexOf('</ol>',start);
+ if(start<0||end<0)throw Error('Missing journey directory');
+ p=p.slice(0,end)+row+p.slice(end);
+ }
+ for(const id of ['walking-with-him']){
+ const start=p.indexOf('<details class="theme-group" id="'+id+'"');if(start<0)throw Error('Missing theme');
+ const end=p.indexOf('</ul>',start);p=p.slice(0,end)+'<li><a href="'+path+'">'+a.title+'</a></li>'+p.slice(end);
+ }
+ PAGES[key]=p;
+}
+for(const slug of ['stop-changing-it']){const link='<aside class="related-writings"><h2>Continue the thought</h2><p><a href="'+path+'">'+a.title+'</a></p></aside>';if(PUBLIC_PAGES['/'+slug])PUBLIC_PAGES['/'+slug]=PUBLIC_PAGES['/'+slug].replace('</main>',link+'</main>');else if(PAGES[slug])PAGES[slug]+=link;else throw Error('Missing related writing '+slug);}
+let idx=PUBLIC_PAGES['/writings/scripture-references.html'];
+for(const [label,url] of a.refs){
+ const book=label.match(/^(.*?) \d+:/)?.[1];if(!book)throw Error('Unknown Scripture label');const id=book.toLowerCase().replaceAll(' ','-');const marker='<section id="book-'+id+'">';
+ if(!idx.includes(marker))idx=idx.replace('</main>',marker+'<h2>'+book+'</h2><ul></ul></section></main>');
+ const start=idx.indexOf(marker),end=idx.indexOf('</section>',start),seg=idx.slice(start,end),pos=seg.lastIndexOf('</ul>');
+ if(pos<0)throw Error('Missing scripture list');
+ const entry='<li class="scripture-entry"><a class="passage" href="'+url.replaceAll('&','&amp;')+'">'+label+'</a><ul><li><a href="'+path+'">'+a.title+'</a></li></ul></li>';
+ idx=idx.slice(0,start)+seg.slice(0,pos)+entry+seg.slice(pos)+idx.slice(end);
+}
+idx=idx.replace('</main>','<section id="what-does-it-sound-like-when-god-speaks"><h3><a href="'+path+'">'+a.title+'</a></h3><ul>'+a.refs.map(([l,u])=>'<li><a href="'+u.replaceAll('&','&amp;')+'">'+l+'</a></li>').join('')+'</ul></section></main>');
+PUBLIC_PAGES['/writings/scripture-references.html']=idx;
+}
