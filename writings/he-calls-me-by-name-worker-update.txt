@@ -1,0 +1,41 @@
+
+// Approved He Calls Me by Name
+{
+const a={"title": "He Calls Me by Name", "body": "<p>When I was a little kid, my dad got me a transistor radio. You had to turn it on, turn it up, and turn the dial until you found the station you wanted. I could sit there with that little radio in my hand and hear nothing but static. Then I’d move the dial just a little, and there was somebody talking. That voice had been coming into the room the whole time.</p>\n<p>I was thinking about that when I asked myself, <em>How much attention am I giving to what God is saying?</em> I can sit through a whole message at church and have my mind on something I need to do when I get home. Or I can listen and ask, <em>Lord, is there something here You want me to hear today?</em> Someone sitting next to me might come away thinking about a different part of the very same message.</p>\n<p>Then I read what Jesus said about the shepherd in <a href=\"https://www.biblegateway.com/passage/?search=John%2010%3A3-4&amp;version=KJV\">John 10:3–4</a>. “He calleth his own sheep by name, and leadeth them out.” They follow him because they know his voice.</p>\n<p>I have read that before. This time I stopped at <em>by name</em>.</p>\n<p>When I think about God calling me by name, I think about all the conversations I’ve had with Him. I remember the times He held me up when I couldn’t stand spiritually. I remember the times I had to admit I couldn’t handle what was in front of me and call out to Him. I can look back on what He did in those moments, and even now it fills me with wonder.</p>\n<p>Then I wonder what it would sound like to hear Him say, “Sam,” and have every one of those moments come back to me in an instant. Every time I called. Every time He held me up. All those years of knowing Him, coming back to me in the sound of my own name.</p>\n<p>And before I hear Him say it, what is He thinking about? Does He think about those times anywhere close to the way I do? When I remember being held, does He remember holding me? I want to ask Him that. I know what those moments mean to me. I wonder what they mean to Him. The thought that He and I might remember those same moments together makes me reach for words I don’t have.</p>\n<p>A little farther on, Jesus says, “My sheep hear my voice, and I know them, and they follow me.” Then He says He gives them eternal life and that no one can pluck them out of His hand (<a href=\"https://www.biblegateway.com/passage/?search=John%2010%3A27-28&amp;version=KJV\">John 10:27–28</a>). I’m glad He put those things together. The One I am learning to listen to is the One who gave His life to bring me near. He knows me, and He holds me in His hand.</p>\n<p>So I want to open His Word with that in mind. I can take my time over a verse I’ve read a hundred times and ask Him to show me what I’m passing over. Then I can carry it into the day and do what He has shown me. That’s part of learning to follow a voice I am coming to know.</p>\n<p>He knows my name. I want to give Him my attention when He calls.</p>", "refs": [["John 10:3–4", "https://www.biblegateway.com/passage/?search=John%2010%3A3-4&version=KJV"], ["John 10:27–28", "https://www.biblegateway.com/passage/?search=John%2010%3A27-28&version=KJV"]]};
+
+const path='/he-calls-me-by-name';
+const template=PUBLIC_PAGES['/for-all-people-in-all-times'];
+const head=template.split('<main>')[0].replaceAll('For All People, in All Times',a.title).replaceAll('https://speakihear.org/for-all-people-in-all-times','https://speakihear.org'+path);
+const topics='<aside class="article-themes" aria-label="Writing themes"><p>Love · Life with Him</p><a href="/testimonies#knowing-his-love">Knowing His Love</a></aside>';
+const related='<aside class="related-writings"><h2>Continue the thought</h2><ul><li><a href="/what-does-it-sound-like-when-god-speaks">What Does It Sound Like When God Speaks?</a></li><li><a href="/knowing-him">Knowing Him</a></li></ul></aside>';
+const nav='<nav class="reading" aria-label="Reading navigation"><a href="/what-does-it-sound-like-when-god-speaks">What Does It Sound Like When God Speaks?</a><a class="next" href="/knowing-him">Next: Knowing Him</a><a href="/testimonies#helps">Writings for the Journey</a><a href="/writings/scripture-references.html">Scripture references</a></nav>';
+PUBLIC_PAGES[path]=head+'<main><span class="eyebrow">Our Shared Journey</span><h1>'+a.title+'</h1>'+a.body+topics+related+nav+'</main></body></html>';
+for(const key of ['collection','welcome']){
+ let p=PAGES[key];
+ if(!p.includes('class="writing-row" href="'+path+'"')){
+ const n=(p.match(/class="writing-row"/g)||[]).length+1;
+ const row='<li><a class="writing-row" href="'+path+'"><span class="writing-number" aria-hidden="true">'+n+'</span><span><span class="writing-name">'+a.title+'</span><span class="writing-subtitle">What it means to be known by Him</span></span><span class="writing-open" aria-hidden="true">Read →</span></a></li>';
+ const start=p.indexOf('<section class="journey-directory"');
+ const end=p.indexOf('</ol>',start);
+ if(start<0||end<0)throw Error('Missing journey directory');
+ p=p.slice(0,end)+row+p.slice(end);
+ }
+ for(const id of ['knowing-his-love']){
+ const start=p.indexOf('<details class="theme-group" id="'+id+'"');if(start<0)throw Error('Missing theme');
+ const end=p.indexOf('</ul>',start);p=p.slice(0,end)+'<li><a href="'+path+'">'+a.title+'</a></li>'+p.slice(end);
+ }
+ PAGES[key]=p;
+}
+for(const slug of ['what-does-it-sound-like-when-god-speaks']){const link='<aside class="related-writings"><h2>Continue the thought</h2><p><a href="'+path+'">'+a.title+'</a></p></aside>';if(PUBLIC_PAGES['/'+slug])PUBLIC_PAGES['/'+slug]=PUBLIC_PAGES['/'+slug].replace('</main>',link+'</main>');else if(PAGES[slug])PAGES[slug]+=link;else throw Error('Missing related writing '+slug);}
+let idx=PUBLIC_PAGES['/writings/scripture-references.html'];
+for(const [label,url] of a.refs){
+ const book=label.match(/^(.*?) \d+:/)?.[1];if(!book)throw Error('Unknown Scripture label');const id=book.toLowerCase().replaceAll(' ','-');const marker='<section id="book-'+id+'">';
+ if(!idx.includes(marker))idx=idx.replace('</main>',marker+'<h2>'+book+'</h2><ul></ul></section></main>');
+ const start=idx.indexOf(marker),end=idx.indexOf('</section>',start),seg=idx.slice(start,end),pos=seg.lastIndexOf('</ul>');
+ if(pos<0)throw Error('Missing scripture list');
+ const entry='<li class="scripture-entry"><a class="passage" href="'+url.replaceAll('&','&amp;')+'">'+label+'</a><ul><li><a href="'+path+'">'+a.title+'</a></li></ul></li>';
+ idx=idx.slice(0,start)+seg.slice(0,pos)+entry+seg.slice(pos)+idx.slice(end);
+}
+idx=idx.replace('</main>','<section id="he-calls-me-by-name"><h3><a href="'+path+'">'+a.title+'</a></h3><ul>'+a.refs.map(([l,u])=>'<li><a href="'+u.replaceAll('&','&amp;')+'">'+l+'</a></li>').join('')+'</ul></section></main>');
+PUBLIC_PAGES['/writings/scripture-references.html']=idx;
+}
