@@ -1,0 +1,41 @@
+
+// Approved Personal Security
+{
+const a={"title": "Personal Security", "body": "<p>In “Living With Him,” I asked the Father where He would have me put my feet. I want to think about what happens after He answers. I go where He leads me, and now I am standing there. He placed me here. This is where I am supposed to be.</p>\n<p>Imagine working for a wealthy man and living on his property. The arrangement is that he provides everything for you, and you work for him. If he gave me a job, I would expect him to provide what I needed to do it. It occurred to me later that a man with that much to look after would probably have a security team as well. I could be out doing the work he gave me while somebody watched the gate. I might go all day without seeing that person. The gate would still be watched.</p>\n<p>Think about Elisha’s servant in <a href=\"https://www.biblegateway.com/passage/?search=2%20Kings%206%3A15-17&amp;version=KJV\">2 Kings 6</a>. He stepped outside in the morning and saw an army surrounding the city. Elisha asked God to open his eyes, and the servant saw the mountain full of horses and chariots of fire. He could see the army from the moment he stepped outside. It took God opening his eyes for him to see what was already there.</p>\n<p>Jesus said, “My sheep hear my voice, and I know them, and they follow me.” Then He said that no one can pluck them out of His hand (<a href=\"https://www.biblegateway.com/passage/?search=John%2010%3A27-28&amp;version=KJV\">John 10:27–28</a>). I hear both parts of that together. I follow because I know His voice, and the One I am following holds me in His hand. When He tells me where to put my foot, I trust His providence in the circumstances around it. Whatever happens around me, I take my direction from Him. If He tells me to take another step, I will take it. Until then, I know where I am supposed to stand.</p>\n<p>I love getting alone with God. I want to be lead among people as the Holy Spirit leads me. I want to be transparent enough for the person in front of me to see the glory of the Father. Holy Spirit is the One working through me.</p>\n<p>That is what I see in the Lambskin Ketubah. The blood of Jesus flows through both sides of the covenant and reaches the next person.</p>\n<p>My foot is where He placed it. I am in His hand.</p>", "refs": [["2 Kings 6:15–17", "https://www.biblegateway.com/passage/?search=2%20Kings%206%3A15-17&version=KJV"], ["John 10:27–28", "https://www.biblegateway.com/passage/?search=John%2010%3A27-28&version=KJV"]]};
+
+const path='/personal-security';
+const template=PUBLIC_PAGES['/for-all-people-in-all-times'];
+const head=template.split('<main>')[0].replaceAll('For All People, in All Times',a.title).replaceAll('https://speakihear.org/for-all-people-in-all-times','https://speakihear.org'+path);
+const topics='<aside class="article-themes" aria-label="Writing themes"><p>Love · Life with Him</p><a href="/testimonies#walking-with-him">Walking with Him</a></aside>';
+const related='<aside class="related-writings"><h2>Continue the thought</h2><ul><li><a href="/living-with-him">Living With Him</a></li><li><a href="/knowing-him">Knowing Him</a></li></ul></aside>';
+const nav='<nav class="reading" aria-label="Reading navigation"><a href="/living-with-him">Living With Him</a><a class="next" href="/knowing-him">Next: Knowing Him</a><a href="/testimonies#helps">Writings for the Journey</a><a href="/writings/scripture-references.html">Scripture references</a></nav>';
+PUBLIC_PAGES[path]=head+'<main><span class="eyebrow">Our Shared Journey</span><h1>'+a.title+'</h1>'+a.body+topics+related+nav+'</main></body></html>';
+for(const key of ['collection','welcome']){
+ let p=PAGES[key];
+ if(!p.includes('class="writing-row" href="'+path+'"')){
+ const n=(p.match(/class="writing-row"/g)||[]).length+1;
+ const row='<li><a class="writing-row" href="'+path+'"><span class="writing-number" aria-hidden="true">'+n+'</span><span><span class="writing-name">'+a.title+'</span><span class="writing-subtitle">Standing where God placed me</span></span><span class="writing-open" aria-hidden="true">Read →</span></a></li>';
+ const start=p.indexOf('<section class="journey-directory"');
+ const end=p.indexOf('</ol>',start);
+ if(start<0||end<0)throw Error('Missing journey directory');
+ p=p.slice(0,end)+row+p.slice(end);
+ }
+ for(const id of ['walking-with-him']){
+ const start=p.indexOf('<details class="theme-group" id="'+id+'"');if(start<0)throw Error('Missing theme');
+ const end=p.indexOf('</ul>',start);p=p.slice(0,end)+'<li><a href="'+path+'">'+a.title+'</a></li>'+p.slice(end);
+ }
+ PAGES[key]=p;
+}
+for(const slug of ['living-with-him']){const link='<aside class="related-writings"><h2>Continue the thought</h2><p><a href="'+path+'">'+a.title+'</a></p></aside>';if(PUBLIC_PAGES['/'+slug])PUBLIC_PAGES['/'+slug]=PUBLIC_PAGES['/'+slug].replace('</main>',link+'</main>');else if(PAGES[slug])PAGES[slug]+=link;else throw Error('Missing related writing '+slug);}
+let idx=PUBLIC_PAGES['/writings/scripture-references.html'];
+for(const [label,url] of a.refs){
+ const book=label.match(/^(.*?) \d+:/)?.[1];if(!book)throw Error('Unknown Scripture label');const id=book.toLowerCase().replaceAll(' ','-');const marker='<section id="book-'+id+'">';
+ if(!idx.includes(marker))idx=idx.replace('</main>',marker+'<h2>'+book+'</h2><ul></ul></section></main>');
+ const start=idx.indexOf(marker),end=idx.indexOf('</section>',start),seg=idx.slice(start,end),pos=seg.lastIndexOf('</ul>');
+ if(pos<0)throw Error('Missing scripture list');
+ const entry='<li class="scripture-entry"><a class="passage" href="'+url.replaceAll('&','&amp;')+'">'+label+'</a><ul><li><a href="'+path+'">'+a.title+'</a></li></ul></li>';
+ idx=idx.slice(0,start)+seg.slice(0,pos)+entry+seg.slice(pos)+idx.slice(end);
+}
+idx=idx.replace('</main>','<section id="personal-security"><h3><a href="'+path+'">'+a.title+'</a></h3><ul>'+a.refs.map(([l,u])=>'<li><a href="'+u.replaceAll('&','&amp;')+'">'+l+'</a></li>').join('')+'</ul></section></main>');
+PUBLIC_PAGES['/writings/scripture-references.html']=idx;
+}
