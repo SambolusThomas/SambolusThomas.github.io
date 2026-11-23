@@ -26,17 +26,18 @@ The recovery goal is to be able to restore the site and bring it back online wit
 - The cosmic sunrise intro is now live on the Cloudflare production Worker `speakihear`, active version `1a70b258`.
 - The intro image and entry script are served from the Cloudflare R2 bucket `media` under `_site/`. The image key was corrected to match the uploaded filename, and the public image URL and live homepage were verified.
 - The intro plays once per browser session, then fades into the existing welcome splash. Visitors who prefer reduced motion skip the animation.
-- GitHub and iCloud were not changed during this deployment. They still need to be synchronized and checked as backups before the recovery copies are considered current.
-- The GitHub repository was last inspected read-only. Its public snapshot is dated November 14, 2026, and the repository did not contain the current `worker.js` at that time. GitHub is therefore not yet verified as a current backup of Cloudflare production.
-- The current `worker.js` and the transition preview are local working copies; the updated Worker and its R2 assets still need to be safely reviewed and added to the intended backup locations.
+- GitHub `main` remains unchanged and continues to hold the existing GitHub Pages site. A separate `cloudflare-recovery-2026-11-22` branch now holds the current Worker, `wrangler.toml`, all seven R2 objects, and recovery instructions.
+- iCloud was not changed. Samuel will copy the prepared recovery folder there.
+- The local recovery folder and ZIP are `cloudflare-recovery/` and `speakihear-cloudflare-recovery.zip` in this workspace. Their SHA-256 checksums and ZIP integrity were verified.
 
 ## Recovery drill — November 22, 2026
 
-- Read-only inspection of the GitHub default branch confirmed that it contains the older static-site files but no `worker.js` or `wrangler.toml`. It cannot currently recreate the Cloudflare Worker deployment by itself.
-- The local workspace has `worker.js`, `speakihear-entry.js`, and the cosmic sunrise image. The Worker references the `FILES` R2 binding and the expected R2 asset keys, but there is no Wrangler configuration in the workspace.
-- The public image and live welcome page had been verified after deployment. A local syntax check could not be run because Node.js is not installed in this environment.
-- iCloud was not inspected. No Cloudflare or GitHub changes were made during this drill.
-- Result: the procedure correctly identified a backup gap, but a full restore has not yet been demonstrated. To make the backup complete, save the Worker, its binding/compatibility configuration, required R2 assets, and recovery instructions together in GitHub and iCloud; then restore into an isolated test Worker before calling the drill complete.
+- Read-only inspection confirmed that GitHub `main` contains the existing static site but no Cloudflare Worker source or Wrangler config.
+- The recovery package was committed to the separate branch `cloudflare-recovery-2026-11-22`. Its tree contains the Worker, configuration, seven R2 objects, recovery notes, and checksums. GitHub `main` was verified unchanged.
+- The R2 asset copies were checked against their existing GitHub blob IDs where applicable. The ZIP integrity check passed, and every listed local checksum passed.
+- The live image URL and welcome page had been verified after deployment. A separate local syntax check could not be run because Node.js is not installed in this environment; Cloudflare accepted and is running the deployed Worker.
+- Samuel will copy the local recovery folder to iCloud. The iCloud copy has not yet been verified, and a full restore in an isolated test Worker is still pending.
+- Result: the source and assets are now assembled in both a local package and a GitHub recovery branch. The restore workflow is not fully proven until an isolated test Worker is restored and checked.
 
 ## Important lesson
 

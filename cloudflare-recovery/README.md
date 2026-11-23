@@ -17,4 +17,4 @@ This folder is a recovery copy of the Cloudflare production Worker and its requi
 3. Deploy only after reviewing the target Worker name. The included config names the production Worker `speakihear`; for a drill, use a separate Worker name and a separate test bucket.
 4. Reattach the `speakihear.org` custom domain only during an approved production recovery. This copy does not include DNS or domain-routing settings.
 
-The GitHub recovery branch is separate from `main`, which continues to serve the existing GitHub Pages backup site. This package does not deploy from GitHub.
+The GitHub recovery branch is `cloudflare-recovery-2026-11-22`, separate from `main`, which continues to serve the existing GitHub Pages backup site. This package does not deploy from GitHub.
