@@ -42,3 +42,9 @@ The recovery goal is to be able to restore the site and bring it back online wit
 ## Important lesson
 
 Earlier work began editing the website in GitHub before the production and backup roles were clear. Samuel stopped that work. Preserve the distinction above: Cloudflare runs the live site; GitHub and iCloud are recovery copies. Preview first, keep backups current, and do not make an unreviewed change to either the live site or public repository.
+
+## Production checkpoint — November 23, 2026
+
+Cloudflare Quick Edit showed active latest version `9932b656`. The public site was serving `/preparing-for-battle`; the newly published `Day to Day, Night to Night` article and its Our Shared Journey listing were also present. Its approved manuscript is included in `current-content/`.
+
+The Worker source in this recovery directory remains the November 22 capture for version `1a70b258`. It is not verified as an exact source copy of version `9932b656`. The R2 objects and configuration also remain from the November 22 capture. Do not treat this package as a byte-for-byte export of the current production deployment or deploy the older Worker without reviewing the difference.
