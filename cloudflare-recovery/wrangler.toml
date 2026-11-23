@@ -1,0 +1,7 @@
+name = "speakihear"
+main = "worker.js"
+compatibility_date = "2026-11-07"
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "media"
